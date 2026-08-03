@@ -1,31 +1,11 @@
-# Temp linux information
-Fail to Ban - abuse blacklist
-
-# Linux Common
-
-## Ports and IP
-|Port||
-|:---|:---|
-|67,68| DHCP server and clients |
-|5353, 5355 | multicast DNS|
-|123 | NTP|
-|1900 | universal plug and play |
-
-|IP||
-|:---|:---|
-|224.x.x.x, 239.x.x.x | IP multicast |
-|first and last IP | reserve for broadcast |
-
-## ARP location
-IP to MAC\
-vim /proc/net/arp
+# Linux Notes
 
 ### DNS etc
-/etc/hosts\
-flush to resolve\
-ip neigh flush all (flush DNS)\
-ipp -s -s neigh flush all\
-/etc/resolv.conf\
+/etc/hosts
+flush to resolve
+ip neigh flush all (flush DNS)
+ipp -s -s neigh flush all
+/etc/resolv.conf
 ```
 auto eth0
 iface eth0 inet static
@@ -47,19 +27,16 @@ VNC, XRDP
 Terraform, Ansible, Chef, Puppet, AWS Cloud formation
 
 ## Logging Tools
-EFK - elastic, Fluent, Kibana\
-PLG - Promtail, Loki, Grafana\
-FIG - Fluent, InfluxDB, Grafana\
+EFK - elastic, Fluent, Kibana
+PLG - Promtail, Loki, Grafana
+FIG - Fluent, InfluxDB, Grafana
 
-log aggregation - loki\
-monitoring - Prometheus, grafana\
+log aggregation - loki
+monitoring - Prometheus, grafana
 independent - rsyslog
 
 ## Mail Tools
 Mailx, postfix
-
-## Backend webserver tool
-Pocketbase
 
 ## Commands
 ### Common
@@ -118,24 +95,15 @@ Pocketbase
 |/etc/logroate.conf | how long log is cleared |
 
 
-# Server Network
-
-## Bridge, Vlan, NAT related
-NAT - no routing, resolve mac to ip, layer 2\
-VLAN - layer 2, more secure over dnsmasq. prevent unauthorized access between each other\
-dnsmasq on the other hand forward the gateway to the client, when i think of using it over VLAN
-
+# Network
 ## Security Network Connection Related CLI
-iptables - packet filtering (older firewall)\
-nftables(newer firewall)\
-firewalld (RHEL firewall)\ 
-\
-tcpdump and wireshark (splunk, ELK, Velociraptor)\
-\
+iptables - packet filtering (older firewall)
+nftables(newer firewall)
+firewalld (RHEL firewall) 
+tcpdump and wireshark (splunk, ELK, Velociraptor)
 mxtoolbox.com - DNS lookup website
 bgp toolkit (hurricane electruc) - IP website and toolkit
-looking glass for traceroute from SG briding point
-
+looking glass for traceroute from SG bridging point
 
 |Ping||
 |:---|:---|
@@ -222,48 +190,48 @@ Process
 
 
 ## setting interface or iptable
-/etc/network/interfaces\
+/etc/network/interfaces
 static static ip
-> allow-hotplug ens18\
-iface ens18 int static\
-address 192.168.31.xxx\
+> allow-hotplug ens18
+iface ens18 int static
+address 192.168.31.xxx
 gateway 192.168.31.1
 
 bridge setting
->allow-hotplug ens19\
+>allow-hotplug ens19
 iface ens19 inet dhcp
 
 default low
-> auto lo\
+> auto lo
 iface lo inet loopback
 
 static bridge
-> auto vmbr0\
-iface vmbr0 inet static\
-address 192.168.31.100/24\
-gateway 192.168.31.1\
-bridge-ports eno1\
-bridge off\
-bridge-fd 0\
+> auto vmbr0
+iface vmbr0 inet static
+address 192.168.31.100/24
+gateway 192.168.31.1
+bridge-ports eno1
+bridge off
+bridge-fd 0
 netmask 255.255.255.0 (optional)
 
-refreshing / update\
-ifdown ens18\
-ifup ens18\
-systemctl restart networking\
-note\
-auto ens18 (start on boot)\
-hotplug ens18 (start on plugged)\
-MAC address vs (ip a), the mac address should tally\
--Multiple ip in one interface example (not tested)\
-auto ens99\
-allow-hotplug ens99\
-iface ens00 inet static\
-address 123/24\
-gateway 123\
-iface ens99 inet static\
-address 124/24\
-iface ens99 inet static\
+refreshing / update
+ifdown ens18
+ifup ens18
+systemctl restart networking
+note
+auto ens18 (start on boot)
+hotplug ens18 (start on plugged)
+MAC address vs (ip a), the mac address should tally
+-Multiple ip in one interface example (not tested)
+auto ens99
+allow-hotplug ens99
+iface ens00 inet static
+address 123/24
+gateway 123
+iface ens99 inet static
+address 124/24
+iface ens99 inet static
 address 124/24
 
 ## Wireguard
@@ -284,11 +252,12 @@ address 124/24
 
 ### Sample
 ```
+VYOS Setting
     wireguard wg03 {
         address "10.1.0.33/30"
         peer toh02 {
             allowed-ips "0.0.0.0/0"
-            public-key "+AxAHSdyJ4KFJnW5ZVIMLarDN6P7JefBiwwPHM="
+            public-key "+====="
         }
         port "51850"
         private-key "c="
@@ -303,6 +272,7 @@ address 124/24
                 protocol "udp"
             }
 
+WG0.config
 [Interface]
 Address = 10.1.0.2/30
 ListenPort = 51850
@@ -317,16 +287,6 @@ PersistentKeepalive = 15 # Optional: keep connection alive
 ```
 
 ## DNS
-Zone file(text file to store DNS record)- specific portion of the dns namespace, start with Start of Authority(SOA)\
-Reverse lookup Zone - contains mapping from IP to host, used for troubleshooting, spam filter and bot detection\
-Reverse address example: 1.35.168.192.in-addr.arpa means 192.168.35.1 resolve www.example.com\
-arpa - address and routing parameter area, is a top level domain (TLD)\
-CNAME - alias, another name rather than directly pointing to an IP.\
-A practical example for the use of CNAME records is running multiple subdomains for different purposes on the same server. For example, we can use ftp.example.com for file transfer protocol (FTP) and serve webpages via www.example.com. We can then use a CNAME record to point both subdomains to example.com. The main domain example.com then points to the server's IP address using an A record.\
-It's also possible to point a CNAME to another CNAME. However, doing so is inefficient and can lead to slow load speed and poor user experience.\
-\
-TLD .org nameserver, resolve to example.org zone, query to en.example.org,a CNAME to test.example.org\
-If the last nameserver did not contain authoritative data for target of CNAME, it would have issued the resolver with yet another referral\
 
 |Record Name|Description|Use|
 |:---|:---|:---|
@@ -346,16 +306,6 @@ If the last nameserver did not contain authoritative data for target of CNAME, i
 |DCHID|DNS record store info related to DHCP|
 |DNAME|delegation name, similar to CNAME, but it points all subdoamins for the alias to canonical domain name, while CNAME is point 1 sub domain to alias(shouldbe)|
 
-```
-auto eth0
-iface eth0 inet static
-address 192.168.1.5
-netmask 255.255.255.0
-network 192.168.1.0
-broadcast 192.168.1.255
-gateway 192.168.1.1
-# dns-nameservers
-```
 ### bind software
 ```
 /etc/bind/named.conf.options
@@ -479,44 +429,30 @@ $TTL 3D ; 0 seconds
 ```
 
 
-##  IPsec
-Question:\
-AES256, ECP, PFS\
-Use psk preshared key\
-Difference between phase 1 and 2
-
-## OpenVPN
-
-## FreePBX
-Windows program: MicroSIP and ARGO
-
-
 # Server Automation 
 
 ## Ansible
-/var/lib/vz/template/iso\
-Permission: API, Token\ ID is description\
-apt-get install ansible\
-apt-get install python3-pip (dont need)\
-pip install proxmoxer (dont need)\
-apt-get install python3-proxmoxer(didnt install 2nd time)\
-apt-get install python3-pip and python3-proxmoxer (updated)\
-\
-use proxmox_kvm instead of community.proxmox.proxmox (updated)\
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/ansible_key\
-ssh-copy-id -i ~/.ssh/ansible_key.pub user@remote_host_ip\
-\
+/var/lib/vz/template/iso
+Permission: API, Token\ ID is description
+apt-get install ansible
+apt-get install python3-pip (dont need)
+pip install proxmoxer (dont need)
+apt-get install python3-proxmoxer(didnt install 2nd time)
+apt-get install python3-pip and python3-proxmoxer (updated)
+
+use proxmox_kvm instead of community.proxmox.proxmox (updated)\ssh-keygen -t rsa -b 4096 -f ~/.ssh/ansible_key
+ssh-copy-id -i ~/.ssh/ansible_key.pub user@remote_host_ip
 ```ini
 hosts.ini
 [myhosts]
 192.168.31.10 ansible_python_interpreter=/urs/bin/python3 ansible_user=root ansible_ssh_private_key_file=~/.ssh/ansible_key
 ```
-\
-ansible_key\
-\
-ansible myhosts -m ping -i inventory.ini\
--vvvv (for debugging)\
-\
+
+ansible_key
+
+ansible myhosts -m ping -i inventory.ini
+-vvvv (for debugging)
+
 ```yml
 test.yml
 ---
@@ -558,21 +494,19 @@ Have 2 HDD, one for OS, the other data all in HDD\
 24k annual vcenter 
 
 ## Proxmox
-/var/lib/vz/template/iso (iso directory)\
-apt-get install --reinstall apt (repo error)\
-apt-get install open-vm-tools (show ip)\
-apt-get install net-tools (arp etc)\
-\
-qm list\
-\
-Remove enterprise linux\
-etc/apt/\
-deb http://download.proxmox.com/debian/pve <YOUR_DEBIAN_VERSION> pve-no-subscription\
-\
-qm list\
+/var/lib/vz/template/iso (iso directory)
+apt-get install --reinstall apt (repo error)
+apt-get install open-vm-tools (show ip)
+apt-get install net-tools (arp etc)
+qm list
+Remove enterprise linux
+etc/apt/
+deb http://download.proxmox.com/debian/pve <YOUR_DEBIAN_VERSION> pve-no-subscription
+qm list
 qm start 200
 
 ```
+CGNAT setting
 auto lo
 iface lo inet loopback
 
@@ -603,44 +537,39 @@ source /etc/network/interfaces.d/*
 
 
 ## xcp-ng
-using local iso\
-xe sr-create name-label="LocalISO" type=iso device-config:location=/var/opt/xen/ISO_Store device-config:legacy_mode=true content-type=iso\
-xe sr-list\
+using local iso
+xe sr-create name-label="LocalISO" type=iso device-config:location=/var/opt/xen/ISO_Store device-config:legacy_mode=true content-type=iso
+xe sr-list
 https://github.com/Jarli01/xenorchestra_installer
 
-## Esxi
-ctrl + D = exit shell
-Alt + F2 = enter shell
-
 ## Others
-Harvester -free but 32GB Ram\
-Hyper-V - seems type 2\
-AHV/Nutanix - need corporate email\
-Ovirt - memory and update issue\
-RHV - EOL soon\
-Proxmox - Fragile but easy and fast\
-OpenNebula - Monitoring, not hypervisor\
-OLVL - avoid ORACLE\
-vmware/Esxi/HyperV - $80-$180 per core for entry\
-xcp-ng - Xen\
-XenOrchestra - pay to use\
+Harvester -free but 32GB Ram
+Hyper-V - seems type 2
+AHV/Nutanix - need corporate email
+Ovirt - memory and update issue
+RHV - EOL soon
+Proxmox - Fragile but easy and fast
+OpenNebula - Monitoring, not hypervisor
+OLVL - avoid ORACLE
+vmware/Esxi/HyperV - $80-$180 per core for entry
+xcp-ng - Xen
+XenOrchestra - pay to use
 QEMU/KVM - baremetal no gui
-
 
 
 # Linux Uncommon
 
 ## RAM
-RAM - physical memory used by active program to access data\
+RAM - physical memory used by active program to access data
 swap - use portion of your hdd to acts as virtual memory
 
 # Module
-module is a loadable component that extens the functionality of the linux kernel without rebuild\
+module is a loadable component that extens the functionality of the linux kernel without rebuild
 lsmod, lmod, modinfo
 
 # Daemons and service
-Daemons - non interactive programs with no direct communication with users\
-Service - interactive programs that communicate with users\
+Daemons - non interactive programs with no direct communication with users
+Service - interactive programs that communicate with users
 .target - core components of systemd, managing system startup process
 
 # Crontab
@@ -721,13 +650,13 @@ awk
 |:---|:---|
 |ls -l l awk '{print $1 $2}' | print column 1 and 2|
 |sort, head | go c man|
-\
-Init, the initial process, reads its configuration files and decides which services to start or stop in each run level\
-\
-alias 123456='echo "helloworld"'\
-123456\
-helloworld\
-unalias 123456\
+
+Init, the initial process, reads its configuration files and decides which services to start or stop in each run level
+
+alias 123456='echo "helloworld"'
+123456
+helloworld
+unalias 123456
 
 
 ```
@@ -775,10 +704,6 @@ for i in 'cat list'; do cp "$i" "$i".bak; done
 ls *.xml*
 ```
 
-chapter 5.2.3
-9.3.2
-
-
 <!-- ####################################################################
 #########################################################################
 #########################################################################
@@ -794,18 +719,19 @@ chapter 5.2.3
 # Others
 
 ## suricata
-suricata-update\
-systemctl restart suricata\
-lspci -D | grep 'Network\|Ethernet'\
-cat eve.json | jq -c 'select(.event_type=="flow")|[.src_ip,.dest_ip]'\
-cat eve.json | jq -c '[.src_ip,.dest_ip,.proto,.dest_port]'\
-cat eve.json | jq .\
+Specific command to get object. 
+suricata-update
+systemctl restart suricata
+lspci -D | grep 'Network\|Ethernet'
+cat eve.json | jq -c 'select(.event_type=="flow")|[.src_ip,.dest_ip]'
+cat eve.json | jq -c '[.src_ip,.dest_ip,.proto,.dest_port]'
+cat eve.json | jq .
 zcat eve.json.1.gz | jq.
 
 ### WAN 35
-cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353)) |[.src_ip,.dest_ip,.proto,.dest_port]'\
-cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'\
-cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123) and (.dest_port!=1900) and (.dest_port!=67) and (.dest_port!=68)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'\
+cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353)) |[.src_ip,.dest_ip,.proto,.dest_port]'
+cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'
+cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123) and (.dest_port!=1900) and (.dest_port!=67) and (.dest_port!=68)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'
 cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123) and (.dest_port!=1900) and (.dest_port!=67) and (.dest_port!=68) and (.dest_ip!="255.255.255.255") and (.dest_ip!="192.168.31.255") and (.dest_ip!="239.255.255.250")) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'
 
 ### LAN 37
@@ -815,9 +741,9 @@ cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353)) |[.sr
 
 
 ## harddisk
-apt install ntfs-3g\
-sudo apt install nfs-common\
-sudo apt install cifs-utils (no use)\
+apt install ntfs-3g
+sudo apt install nfs-common
+sudo apt install cifs-utils (no use)
 sudo ntfsfix -d /dev/sdb1
 
 ## Psono Docker
@@ -828,34 +754,33 @@ sudo ipa-getcert request \
   -D psono.example.com \
   -K HTTP/psono.example.com
 ```
-ss -tuln | grep 5432\
-docker network create my-network\
-docker run --network my-network \
-ipa-getcert list\
-ipa-getcert stop-tracking -i 20260705122004\
-nginx -t\
-docker ps\
-docker restart <ID>\
-start nginx\
-sudo setsebool -P httpd_can_network_connect 1\
-sudo systemctl reload nginx\
-docker exec -it postgres psql -U postgres <into db>\
+ss -tuln | grep 5432
+docker network create my-network
+docker run --network my-network
+ipa-getcert list
+ipa-getcert stop-tracking -i 20260705122004
+nginx -t
+docker ps
+docker restart <ID>
+start nginx
+sudo setsebool -P httpd_can_network_connect 1
+sudo systemctl reload nginx
+docker exec -it postgres psql -U postgres <into db>
 sudo find / -name "postgresql.conf" 2>/dev/null
 
 
 ## Freeipa
-ipa-server-install --allow-zone-overlap\
-ipa dnsconfig-mod --forwarder=192.168.16.0 <firewall>\
-ipa dnsconfig-show\
-/etc/named/ipa-ext.conf\
-acl trusted, 127.0.0.1, 192.168.16.0/32;\
-\
-firewall-cmd --list-services\
-firewall-cmd --permanent --add-service=dns\
-firewall-cmd --reload\
-sss_cache -E\
-systemctl restart sssd\
-\
-ipa-client-install --domain=xx.com --mkhomedir\
-hostnamectl set-hostname user.xx.com\
-dnf install freeipa-client\
+ipa-server-install --allow-zone-overlap
+ipa dnsconfig-mod --forwarder=192.168.16.0 <firewall>
+ipa dnsconfig-show
+/etc/named/ipa-ext.conf
+acl trusted, 127.0.0.1, 192.168.16.0/32;
+firewall-cmd --list-services
+firewall-cmd --permanent --add-service=dns
+firewall-cmd --reload
+sss_cache -E
+systemctl restart sssd
+
+ipa-client-install --domain=xx.com --mkhomedir
+hostnamectl set-hostname user.xx.com
+dnf install freeipa-client
