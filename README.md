@@ -1,11 +1,11 @@
 # Linux Notes
 
 ### DNS etc
-/etc/hosts
-flush to resolve
-ip neigh flush all (flush DNS)
-ipp -s -s neigh flush all
-/etc/resolv.conf
+/etc/hosts  
+flush to resolve  
+ip neigh flush all (flush DNS)  
+ipp -s -s neigh flush all  
+/etc/resolv.conf  
 ```
 auto eth0
 iface eth0 inet static
@@ -18,25 +18,25 @@ systemctl restart NetworkManager (external app)
 
 
 ## VPN Tools
-tailscale, wrieguard
+tailscale, wrieguard  
 
 ## Remote GUI Tools
-VNC, XRDP
+VNC, XRDP  
 
 ## Management and IAC tools
-Terraform, Ansible, Chef, Puppet, AWS Cloud formation
+Terraform, Ansible, Chef, Puppet, AWS Cloud formation  
 
 ## Logging Tools
-EFK - elastic, Fluent, Kibana
-PLG - Promtail, Loki, Grafana
-FIG - Fluent, InfluxDB, Grafana
+EFK - elastic, Fluent, Kibana  
+PLG - Promtail, Loki, Grafana  
+FIG - Fluent, InfluxDB, Grafana  
 
-log aggregation - loki
-monitoring - Prometheus, grafana
-independent - rsyslog
+log aggregation - loki  
+monitoring - Prometheus, grafana  
+independent - rsyslog  
 
 ## Mail Tools
-Mailx, postfix
+Mailx, postfix  
 
 ## Commands
 ### Common
@@ -97,13 +97,13 @@ Mailx, postfix
 
 # Network
 ## Security Network Connection Related CLI
-iptables - packet filtering (older firewall)
-nftables(newer firewall)
-firewalld (RHEL firewall) 
-tcpdump and wireshark (splunk, ELK, Velociraptor)
-mxtoolbox.com - DNS lookup website
-bgp toolkit (hurricane electruc) - IP website and toolkit
-looking glass for traceroute from SG bridging point
+iptables - packet filtering (older firewall)  
+nftables(newer firewall)  
+firewalld (RHEL firewall)  
+tcpdump and wireshark (splunk, ELK, Velociraptor)  
+mxtoolbox.com - DNS lookup website  
+bgp toolkit (hurricane electruc) - IP website and toolkit  
+looking glass for traceroute from SG bridging point  
 
 |Ping||
 |:---|:---|
@@ -190,8 +190,8 @@ Process
 
 
 ## setting interface or iptable
-/etc/network/interfaces
-static static ip
+/etc/network/interfaces  
+static static ip  
 > allow-hotplug ens18
 iface ens18 int static
 address 192.168.31.xxx
