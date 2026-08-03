@@ -192,47 +192,47 @@ Process
 ## setting interface or iptable
 /etc/network/interfaces  
 static static ip  
-> allow-hotplug ens18
-iface ens18 int static
-address 192.168.31.xxx
-gateway 192.168.31.1
+> allow-hotplug ens18  
+iface ens18 int static  
+address 192.168.31.xxx  
+gateway 192.168.31.1  
 
-bridge setting
->allow-hotplug ens19
-iface ens19 inet dhcp
+bridge setting  
+>allow-hotplug ens19  
+iface ens19 inet dhcp  
 
-default low
-> auto lo
-iface lo inet loopback
+default low  
+> auto lo  
+iface lo inet loopback  
 
-static bridge
-> auto vmbr0
-iface vmbr0 inet static
-address 192.168.31.100/24
-gateway 192.168.31.1
-bridge-ports eno1
-bridge off
-bridge-fd 0
-netmask 255.255.255.0 (optional)
+static bridge  
+> auto vmbr0  
+iface vmbr0 inet static  
+address 192.168.31.100/24  
+gateway 192.168.31.1  
+bridge-ports eno1  
+bridge off  
+bridge-fd 0  
+netmask 255.255.255.0 (optional)  
 
-refreshing / update
-ifdown ens18
-ifup ens18
-systemctl restart networking
-note
-auto ens18 (start on boot)
-hotplug ens18 (start on plugged)
-MAC address vs (ip a), the mac address should tally
--Multiple ip in one interface example (not tested)
-auto ens99
-allow-hotplug ens99
-iface ens00 inet static
-address 123/24
-gateway 123
-iface ens99 inet static
-address 124/24
-iface ens99 inet static
-address 124/24
+refreshing / update  
+ifdown ens18  
+ifup ens18  
+systemctl restart networking  
+note  
+auto ens18 (start on boot)  
+hotplug ens18 (start on plugged)  
+MAC address vs (ip a), the mac address should tally  
+-Multiple ip in one interface example (not tested)  
+auto ens99  
+allow-hotplug ens99  
+iface ens00 inet static  
+address 123/24  
+gateway 123  
+iface ens99 inet static  
+address 124/24  
+iface ens99 inet static  
+address 124/24  
 
 ## Wireguard
 
@@ -432,26 +432,26 @@ $TTL 3D ; 0 seconds
 # Server Automation 
 
 ## Ansible
-/var/lib/vz/template/iso
-Permission: API, Token\ ID is description
-apt-get install ansible
-apt-get install python3-pip (dont need)
-pip install proxmoxer (dont need)
-apt-get install python3-proxmoxer(didnt install 2nd time)
-apt-get install python3-pip and python3-proxmoxer (updated)
+/var/lib/vz/template/iso  
+Permission: API, Token\ ID is description  
+apt-get install ansible  
+apt-get install python3-pip (dont need)  
+pip install proxmoxer (dont need)  
+apt-get install python3-proxmoxer(didnt install 2nd time)  
+apt-get install python3-pip and python3-proxmoxer (updated)  
 
-use proxmox_kvm instead of community.proxmox.proxmox (updated)\ssh-keygen -t rsa -b 4096 -f ~/.ssh/ansible_key
-ssh-copy-id -i ~/.ssh/ansible_key.pub user@remote_host_ip
+use proxmox_kvm instead of community.proxmox.proxmox (updated)\ssh-keygen -t rsa -b 4096 -f ~/.ssh/ansible_key  
+ssh-copy-id -i ~/.ssh/ansible_key.pub user@remote_host_ip  
 ```ini
 hosts.ini
 [myhosts]
 192.168.31.10 ansible_python_interpreter=/urs/bin/python3 ansible_user=root ansible_ssh_private_key_file=~/.ssh/ansible_key
 ```
 
-ansible_key
-
-ansible myhosts -m ping -i inventory.ini
--vvvv (for debugging)
+ansible_key  
+  
+ansible myhosts -m ping -i inventory.ini  
+-vvvv (for debugging)  
 
 ```yml
 test.yml
@@ -490,20 +490,20 @@ test.yml
 
 
 # Hypervisor
-Have 2 HDD, one for OS, the other data all in HDD\
-24k annual vcenter 
+Have 2 HDD, one for OS, the other data all in HDD  
+24k annual vcenter  
 
 ## Proxmox
-/var/lib/vz/template/iso (iso directory)
-apt-get install --reinstall apt (repo error)
-apt-get install open-vm-tools (show ip)
-apt-get install net-tools (arp etc)
-qm list
-Remove enterprise linux
-etc/apt/
-deb http://download.proxmox.com/debian/pve <YOUR_DEBIAN_VERSION> pve-no-subscription
-qm list
-qm start 200
+/var/lib/vz/template/iso (iso directory)  
+apt-get install --reinstall apt (repo error)  
+apt-get install open-vm-tools (show ip)  
+apt-get install net-tools (arp etc)  
+qm list  
+Remove enterprise linux  
+etc/apt/  
+deb http://download.proxmox.com/debian/pve <YOUR_DEBIAN_VERSION> pve-no-subscription  
+qm list  
+qm start 200  
 
 ```
 CGNAT setting
@@ -537,43 +537,43 @@ source /etc/network/interfaces.d/*
 
 
 ## xcp-ng
-using local iso
-xe sr-create name-label="LocalISO" type=iso device-config:location=/var/opt/xen/ISO_Store device-config:legacy_mode=true content-type=iso
-xe sr-list
-https://github.com/Jarli01/xenorchestra_installer
+using local iso  
+xe sr-create name-label="LocalISO" type=iso device-config:location=/var/opt/xen/ISO_Store device-config:legacy_mode=true content-type=iso  
+xe sr-list  
+https://github.com/Jarli01/xenorchestra_installer  
 
 ## Others
-Harvester -free but 32GB Ram
-Hyper-V - seems type 2
-AHV/Nutanix - need corporate email
-Ovirt - memory and update issue
-RHV - EOL soon
-Proxmox - Fragile but easy and fast
-OpenNebula - Monitoring, not hypervisor
-OLVL - avoid ORACLE
-vmware/Esxi/HyperV - $80-$180 per core for entry
-xcp-ng - Xen
-XenOrchestra - pay to use
-QEMU/KVM - baremetal no gui
+Harvester -free but 32GB Ram  
+Hyper-V - seems type 2  
+AHV/Nutanix - need corporate email  
+Ovirt - memory and update issue  
+RHV - EOL soon  
+Proxmox - Fragile but easy and fast  
+OpenNebula - Monitoring, not hypervisor  
+OLVL - avoid ORACLE  
+vmware/Esxi/HyperV - $80-$180 per core for entry  
+xcp-ng - Xen  
+XenOrchestra - pay to use  
+QEMU/KVM - baremetal no gui  
 
 
 # Linux Uncommon
 
 ## RAM
-RAM - physical memory used by active program to access data
-swap - use portion of your hdd to acts as virtual memory
+RAM - physical memory used by active program to access data  
+swap - use portion of your hdd to acts as virtual memory  
 
 # Module
-module is a loadable component that extens the functionality of the linux kernel without rebuild
-lsmod, lmod, modinfo
+module is a loadable component that extens the functionality of the linux kernel without rebuild  
+lsmod, lmod, modinfo  
 
 # Daemons and service
-Daemons - non interactive programs with no direct communication with users
-Service - interactive programs that communicate with users
-.target - core components of systemd, managing system startup process
+Daemons - non interactive programs with no direct communication with users  
+Service - interactive programs that communicate with users  
+.target - core components of systemd, managing system startup process  
 
 # Crontab
-Execute crontab at a specific schedule
+Execute crontab at a specific schedule  
 
 
 # Shell
@@ -651,12 +651,12 @@ awk
 |ls -l l awk '{print $1 $2}' | print column 1 and 2|
 |sort, head | go c man|
 
-Init, the initial process, reads its configuration files and decides which services to start or stop in each run level
+Init, the initial process, reads its configuration files and decides which services to start or stop in each run level  
 
-alias 123456='echo "helloworld"'
-123456
-helloworld
-unalias 123456
+alias 123456='echo "helloworld"'  
+123456  
+helloworld  
+unalias 123456  
 
 
 ```
@@ -719,9 +719,9 @@ ls *.xml*
 # Others
 
 ## suricata
-Specific command to get object. 
-suricata-update
-systemctl restart suricata
+Specific command to get object.  
+suricata-update  
+systemctl restart suricata  
 lspci -D | grep 'Network\|Ethernet'
 cat eve.json | jq -c 'select(.event_type=="flow")|[.src_ip,.dest_ip]'
 cat eve.json | jq -c '[.src_ip,.dest_ip,.proto,.dest_port]'
