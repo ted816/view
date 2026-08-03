@@ -722,29 +722,29 @@ ls *.xml*
 Specific command to get object.  
 suricata-update  
 systemctl restart suricata  
-lspci -D | grep 'Network\|Ethernet'
-cat eve.json | jq -c 'select(.event_type=="flow")|[.src_ip,.dest_ip]'
-cat eve.json | jq -c '[.src_ip,.dest_ip,.proto,.dest_port]'
-cat eve.json | jq .
-zcat eve.json.1.gz | jq.
+lspci -D | grep 'Network\|Ethernet'  
+cat eve.json | jq -c 'select(.event_type=="flow")|[.src_ip,.dest_ip]'  
+cat eve.json | jq -c '[.src_ip,.dest_ip,.proto,.dest_port]'  
+cat eve.json | jq .  
+zcat eve.json.1.gz | jq.  
 
 ### WAN 35
-cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353)) |[.src_ip,.dest_ip,.proto,.dest_port]'
-cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'
-cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123) and (.dest_port!=1900) and (.dest_port!=67) and (.dest_port!=68)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'
-cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123) and (.dest_port!=1900) and (.dest_port!=67) and (.dest_port!=68) and (.dest_ip!="255.255.255.255") and (.dest_ip!="192.168.31.255") and (.dest_ip!="239.255.255.250")) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'
+cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353)) |[.src_ip,.dest_ip,.proto,.dest_port]'  
+cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'  
+cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123) and (.dest_port!=1900) and (.dest_port!=67) and (.dest_port!=68)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'  
+cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353) and (.dest_port!=5355) and (.dest_port!=123) and (.dest_port!=1900) and (.dest_port!=67) and (.dest_port!=68) and (.dest_ip!="255.255.255.255") and (.dest_ip!="192.168.31.255") and (.dest_ip!="239.255.255.250")) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'  
 
 ### LAN 37
-cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'
+cat eve.json | jq -c 'select((.proto!="IPv6-ICMP") and (.dest_port!=5353)) |[.src_ip,.dest_ip,.proto,.dest_port,.timestamp]'  
 <!---show stats (null) and SSH-->
-34.107.243.93 - Google LLC
+34.107.243.93 - Google LLC  
 
 
 ## harddisk
-apt install ntfs-3g
-sudo apt install nfs-common
-sudo apt install cifs-utils (no use)
-sudo ntfsfix -d /dev/sdb1
+apt install ntfs-3g  
+sudo apt install nfs-common  
+sudo apt install cifs-utils (no use)  
+sudo ntfsfix -d /dev/sdb1  
 
 ## Psono Docker
 ```
@@ -754,33 +754,33 @@ sudo ipa-getcert request \
   -D psono.example.com \
   -K HTTP/psono.example.com
 ```
-ss -tuln | grep 5432
-docker network create my-network
-docker run --network my-network
-ipa-getcert list
-ipa-getcert stop-tracking -i 20260705122004
-nginx -t
-docker ps
-docker restart <ID>
-start nginx
-sudo setsebool -P httpd_can_network_connect 1
-sudo systemctl reload nginx
-docker exec -it postgres psql -U postgres <into db>
-sudo find / -name "postgresql.conf" 2>/dev/null
+ss -tuln | grep 5432  
+docker network create my-network  
+docker run --network my-network  
+ipa-getcert list  
+ipa-getcert stop-tracking -i 20260705122004  
+nginx -t  
+docker ps  
+docker restart <ID>  
+start nginx  
+sudo setsebool -P httpd_can_network_connect 1  
+sudo systemctl reload nginx  
+docker exec -it postgres psql -U postgres <into db>  
+sudo find / -name "postgresql.conf" 2>/dev/null  
 
 
 ## Freeipa
-ipa-server-install --allow-zone-overlap
-ipa dnsconfig-mod --forwarder=192.168.16.0 <firewall>
-ipa dnsconfig-show
-/etc/named/ipa-ext.conf
-acl trusted, 127.0.0.1, 192.168.16.0/32;
-firewall-cmd --list-services
-firewall-cmd --permanent --add-service=dns
-firewall-cmd --reload
-sss_cache -E
-systemctl restart sssd
+ipa-server-install --allow-zone-overlap  
+ipa dnsconfig-mod --forwarder=192.168.16.0 <firewall>  
+ipa dnsconfig-show  
+/etc/named/ipa-ext.conf  
+acl trusted, 127.0.0.1, 192.168.16.0/32;  
+firewall-cmd --list-services  
+firewall-cmd --permanent --add-service=dns  
+firewall-cmd --reload  
+sss_cache -E  
+systemctl restart sssd  
 
-ipa-client-install --domain=xx.com --mkhomedir
-hostnamectl set-hostname user.xx.com
-dnf install freeipa-client
+ipa-client-install --domain=xx.com --mkhomedir  
+hostnamectl set-hostname user.xx.com  
+dnf install freeipa-client  
