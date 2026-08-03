@@ -276,11 +276,11 @@ WG0.config
 [Interface]
 Address = 10.1.0.2/30
 ListenPort = 51850
-PrivateKey = 6KdEKgcExxNtWxGQwLDX61fPIH9mKGVCCnDkrVMUqG0=
+PrivateKey = 6KdEKgcExxNVMUqG0=
 DNS = 192.168.16.35
 
 [Peer]
-PublicKey = EQY9BtHO6fRvRTZ21/3ig3i9JbcgpEc2IjkkNDvXI0Q=
+PublicKey = EQY9BtHO6fRjkkNDvXI0Q=
 AllowedIPs = 10.1.0.0/30, 192.168.16.32/27
 Endpoint = 192.168.31.101:51820
 PersistentKeepalive = 15 # Optional: keep connection alive
